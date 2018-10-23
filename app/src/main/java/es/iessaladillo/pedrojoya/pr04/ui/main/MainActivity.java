@@ -14,11 +14,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import es.iessaladillo.pedrojoya.pr04.R;
 import es.iessaladillo.pedrojoya.pr04.data.local.Database;
 import es.iessaladillo.pedrojoya.pr04.data.local.model.Avatar;
+import es.iessaladillo.pedrojoya.pr04.ui.avatar.AvatarActivity;
 import es.iessaladillo.pedrojoya.pr04.utils.Field;
 import es.iessaladillo.pedrojoya.pr04.utils.IntentsImplicitUtils;
 import es.iessaladillo.pedrojoya.pr04.utils.KeyboardUtils;
@@ -44,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView lblPhonenumber;
     private TextView lblWeb;
     private Database database = Database.getInstance();
+
+    public static final int RC_AVATAR = 1;
+    private Avatar avatar = database.getDefaultAvatar();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,43 +94,23 @@ public class MainActivity extends AppCompatActivity {
         imgWeb = ActivityCompat.requireViewById(this, R.id.imgWeb);
 
         //Initially
-        lblName.setTypeface(Typeface.DEFAULT_BOLD);
-        txtName.requestFocus();
-        imgAvatar.setImageResource(database.getDefaultAvatar().getImageResId());
-        lblAvatar.setText(database.getDefaultAvatar().getName());
+        initParametres();
 
         //test
         imgAvatar.setTag(Database.getInstance().getDefaultAvatar().getImageResId());
 
-        imgAvatar.setOnClickListener(l -> changeProfile());
-        lblAvatar.setOnClickListener(l -> changeProfile());
+        imgAvatar.setOnClickListener(l -> startAvatarActivity());
 
         imgEmail.setOnClickListener(l -> startIntent(Field.EMAIL));
         imgAddress.setOnClickListener(l -> startIntent(Field.ADDRESS));
         imgPhonenumber.setOnClickListener(l -> startIntent(Field.PHONENUMBER));
         imgWeb.setOnClickListener(l -> startIntent(Field.WEB));
 
-        txtName.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) lblName.setTypeface(Typeface.DEFAULT);
-            else lblName.setTypeface(Typeface.DEFAULT_BOLD);
-        });
-
-        txtEmail.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) lblEmail.setTypeface(Typeface.DEFAULT);
-            else lblEmail.setTypeface(Typeface.DEFAULT_BOLD);
-        });
-        txtAddress.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) lblAddress.setTypeface(Typeface.DEFAULT);
-            else lblAddress.setTypeface(Typeface.DEFAULT_BOLD);
-        });
-        txtPhonenumber.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) lblPhonenumber.setTypeface(Typeface.DEFAULT);
-            else lblPhonenumber.setTypeface(Typeface.DEFAULT_BOLD);
-        });
-        txtWeb.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) lblWeb.setTypeface(Typeface.DEFAULT);
-            else lblWeb.setTypeface(Typeface.DEFAULT_BOLD);
-        });
+        txtName.setOnFocusChangeListener((v, hasFocus) -> onPointerCaptureFocus(hasFocus, lblName));
+        txtEmail.setOnFocusChangeListener((v, hasFocus) -> onPointerCaptureFocus(hasFocus, lblEmail));
+        txtAddress.setOnFocusChangeListener((v, hasFocus) -> onPointerCaptureFocus(hasFocus, lblAddress));
+        txtPhonenumber.setOnFocusChangeListener((v, hasFocus) -> onPointerCaptureFocus(hasFocus, lblPhonenumber));
+        txtWeb.setOnFocusChangeListener((v, hasFocus) -> onPointerCaptureFocus(hasFocus, lblWeb));
 
         txtName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -224,8 +209,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK && requestCode == RC_AVATAR) {
+            if (data != null && data.hasExtra(AvatarActivity.EXTRA_AVATAR)) {
+                avatar = data.getParcelableExtra(AvatarActivity.EXTRA_AVATAR);
+                // Procesamos el resultado (en este caso la edad).
+                changeAvatar(avatar);
+            }
+        }
+    }
+
+    private void changeAvatar(Avatar avatar) {
+        imgAvatar.setImageResource(avatar.getImageResId());
+        lblAvatar.setText(avatar.getName());
+        //test
+        imgAvatar.setTag(avatar.getImageResId());
+
+    }
+
+    private void startAvatarActivity() {
+        AvatarActivity.startForResult(MainActivity.this, RC_AVATAR, avatar);
+    }
+
+    private void initParametres() {
+        lblName.setTypeface(Typeface.DEFAULT_BOLD);
+        txtName.requestFocus();
+        imgAvatar.setImageResource(database.getDefaultAvatar().getImageResId());
+        lblAvatar.setText(database.getDefaultAvatar().getName());
+    }
+
     private void startIntent(Field field) {
-        Intent intent = null;
+        Intent intent = new Intent();
         if (field == Field.EMAIL) {
             intent = IntentsImplicitUtils.sendEmail(txtEmail);
         } else if (field == Field.WEB) {
@@ -242,12 +257,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void changeProfile() {
-        Avatar avatar = Database.getInstance().getRandomAvatar();
-        imgAvatar.setImageResource(avatar.getImageResId());
-        //test
-        imgAvatar.setTag(avatar.getImageResId());
-        lblAvatar.setText(avatar.getName());
+    private void onPointerCaptureFocus(boolean hasCapture, TextView lbl) {
+        lbl.setTypeface(hasCapture ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
     }
 
     private boolean checkFieldSimple(TextView label, EditText editText) {
@@ -292,22 +303,28 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    private boolean isValidForm(){
+        boolean isValid = false;
+        isValid = checkFieldSimple(lblName, txtName) && checkField(lblAddress, txtAddress, imgAddress, Field.ADDRESS) && checkField(lblPhonenumber, txtPhonenumber, imgPhonenumber, Field.PHONENUMBER)
+                  && checkField(lblEmail, txtEmail, imgEmail, Field.EMAIL) && checkField(lblWeb, txtWeb, imgWeb, Field.WEB);
+        return isValid;
+    }
+
     /**
      * Checks if form is valid or not and shows a Snackbar accordingly
      **/
 
     private void save() {
-        if (checkFieldSimple(lblName, txtName) && checkField(lblAddress, txtAddress, imgAddress, Field.ADDRESS) && checkField(lblPhonenumber, txtPhonenumber, imgPhonenumber, Field.PHONENUMBER)
-                && checkField(lblEmail, txtEmail, imgEmail, Field.EMAIL) && checkField(lblWeb, txtWeb, imgWeb, Field.WEB)) {
+        if (isValidForm()) {
             KeyboardUtils.hideSoftKeyboard(this);
             SnackbarUtils.snackbar(imgAvatar, getString(R.string.main_saved_succesfully));
         } else {
+            KeyboardUtils.hideSoftKeyboard(this);
             SnackbarUtils.snackbar(imgAvatar, getString(R.string.main_error_saving));
             checkField(lblAddress, txtAddress, imgAddress, Field.ADDRESS);
             checkField(lblPhonenumber, txtPhonenumber, imgPhonenumber, Field.PHONENUMBER);
             checkField(lblEmail, txtEmail, imgEmail, Field.EMAIL);
             checkField(lblWeb, txtWeb, imgWeb, Field.WEB);
-            KeyboardUtils.hideSoftKeyboard(this);
         }
 
     }

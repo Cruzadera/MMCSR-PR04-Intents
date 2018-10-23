@@ -2,47 +2,161 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.avatar.AvatarActivity">
 
     <!-- TODO -->
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+    <ImageView
+        android:id="@+id/imgAvatar1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/imgAvatar3"
+        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintEnd_toStartOf="@+id/imgAvatar2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgAvatar3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/imgAvatar5"
+        app:layout_constraintDimensionRatio="h,4:3"
+        app:layout_constraintEnd_toStartOf="@+id/imgAvatar4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgAvatar1"
+        app:layout_constraintVertical_bias="0.51" />
+
+    <ImageView
+        android:id="@+id/imgAvatar5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="h,4:3"
+        app:layout_constraintEnd_toStartOf="@+id/imgAvatar6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgAvatar3" />
+
+    <ImageView
+        android:id="@+id/imgAvatar2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/imgAvatar4"
+        app:layout_constraintDimensionRatio="w,4:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@+id/imgAvatar1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgAvatar4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/imgAvatar6"
+        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@+id/imgAvatar3"
+        app:layout_constraintTop_toBottomOf="@+id/imgAvatar2" />
+
+    <ImageView
+        android:id="@+id/imgAvatar6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+
+        app:layout_constraintStart_toEndOf="@+id/imgAvatar5"
+        app:layout_constraintTop_toBottomOf="@+id/imgAvatar4"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/lblAvatar1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="167dp" />
+        android:layout_marginEnd="176dp"
+        android:layout_marginBottom="176dp"
+        app:layout_constraintBottom_toTopOf="@+id/lblAvatar3"
+        app:layout_constraintEnd_toStartOf="@+id/lblAvatar2"
+        android:textColor="@color/white"
+        android:background="@color/colorBackLblAvatar"/>
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="232dp"
-        android:layout_height="142dp"
-        app:layout_constraintDimensionRatio="w,16:9"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
+    <TextView
+        android:id="@+id/lblAvatar2"
+        android:layout_width="0dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="144dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorBackLblAvatar"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/lblAvatar4"
+        app:layout_constraintEnd_toEndOf="@+id/imgAvatar2"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cat1" />
+        app:layout_constraintVertical_bias="0.051" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="248dp"
-        android:layout_height="142dp"
-        app:layout_constraintDimensionRatio="w,16:9"
+    <TextView
+        android:id="@+id/lblAvatar3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="176dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblAvatar4"
+        app:layout_constraintEnd_toStartOf="@+id/lblAvatar4"
+        android:textColor="@color/white"
+        android:background="@color/colorBackLblAvatar"/>
+
+    <TextView
+        android:id="@+id/lblAvatar4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="168dp"
+        android:background="@color/colorBackLblAvatar"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/lblAvatar6"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/lblAvatar5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="176dp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/lblAvatar6"
+        app:layout_constraintTop_toBottomOf="@+id/lblAvatar3"
+        app:layout_constraintVertical_bias="1.0"
+        android:textColor="@color/white"
+        android:background="@color/colorBackLblAvatar"/>
+
+    <TextView
+        android:id="@+id/lblAvatar6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cat2" />
+        android:textColor="@color/white"
+        android:background="@color/colorBackLblAvatar"/>
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="180dp"
-        android:layout_height="120dp"
-        app:layout_constraintDimensionRatio="w,16:9"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
-        app:srcCompat="@drawable/cat3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

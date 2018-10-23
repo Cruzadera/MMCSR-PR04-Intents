@@ -10,8 +10,7 @@ public class IntentsImplicitUtils {
     public static Intent sendEmail(EditText txt){
         String email = txt.getText().toString();
         Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-        intent.putExtra(Intent.EXTRA_EMAIL, email);
+        intent.setData(Uri.fromParts("mailto", email, null));
         return intent;
     }
 
@@ -33,7 +32,7 @@ public class IntentsImplicitUtils {
     public static Intent searchWeb(EditText txt){
         String web = txt.getText().toString();
         Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-        intent.putExtra(SearchManager.QUERY, web);
+        intent.putExtra(SearchManager.QUERY, web); // query contains search string
         return intent;
     }
 }

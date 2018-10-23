@@ -1,19 +1,45 @@
 package es.iessaladillo.pedrojoya.pr04.ui.avatar;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import es.iessaladillo.pedrojoya.pr04.R;
+import es.iessaladillo.pedrojoya.pr04.data.local.Database;
+import es.iessaladillo.pedrojoya.pr04.data.local.model.Avatar;
 import es.iessaladillo.pedrojoya.pr04.utils.ResourcesUtils;
 
 public class AvatarActivity extends AppCompatActivity {
+
+    public static final String EXTRA_AVATAR = "avatar";
+    private ImageView imgCat01;
+    private ImageView imgCat02;
+    private ImageView imgCat03;
+    private ImageView imgCat04;
+    private ImageView imgCat05;
+    private ImageView imgCat06;
+    private TextView lblCat01;
+    private TextView lblCat02;
+    private TextView lblCat03;
+    private TextView lblCat04;
+    private TextView lblCat05;
+    private TextView lblCat06;
+
+    private Database database = Database.getInstance();
+    private Avatar avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar);
-        // TODO
+        initViews();
+        getIntentData();
+        initAvatars();
     }
 
     // DO NO TOUCH
@@ -26,6 +52,100 @@ public class AvatarActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void initViews() {
+        imgCat01 = ActivityCompat.requireViewById(this, R.id.imgAvatar1);
+        imgCat02 = ActivityCompat.requireViewById(this, R.id.imgAvatar2);
+        imgCat03 = ActivityCompat.requireViewById(this, R.id.imgAvatar3);
+        imgCat04 = ActivityCompat.requireViewById(this, R.id.imgAvatar4);
+        imgCat05 = ActivityCompat.requireViewById(this, R.id.imgAvatar5);
+        imgCat06 = ActivityCompat.requireViewById(this, R.id.imgAvatar6);
+        lblCat01 = ActivityCompat.requireViewById(this, R.id.lblAvatar1);
+        lblCat02 = ActivityCompat.requireViewById(this, R.id.lblAvatar2);
+        lblCat03 = ActivityCompat.requireViewById(this, R.id.lblAvatar3);
+        lblCat04 = ActivityCompat.requireViewById(this, R.id.lblAvatar4);
+        lblCat05 = ActivityCompat.requireViewById(this, R.id.lblAvatar5);
+        lblCat06 = ActivityCompat.requireViewById(this, R.id.lblAvatar6);
+
+        imgCat01.setOnClickListener(l -> selectAvatar(1));
+        imgCat02.setOnClickListener(l -> selectAvatar(2));
+        imgCat03.setOnClickListener(l -> selectAvatar(3));
+        imgCat04.setOnClickListener(l -> selectAvatar(4));
+        imgCat05.setOnClickListener(l -> selectAvatar(5));
+        imgCat06.setOnClickListener(l -> selectAvatar(6));
+
+        lblCat01.setOnClickListener(l -> selectAvatar(1));
+        lblCat02.setOnClickListener(l -> selectAvatar(2));
+        lblCat03.setOnClickListener(l -> selectAvatar(3));
+        lblCat04.setOnClickListener(l -> selectAvatar(4));
+        lblCat05.setOnClickListener(l -> selectAvatar(5));
+        lblCat06.setOnClickListener(l -> selectAvatar(6));
+
+    }
+
+    public static void startForResult(Activity activity, int requestCode, Avatar avatar) {
+        Intent intent = new Intent(activity, AvatarActivity.class);
+        intent.putExtra(EXTRA_AVATAR, avatar);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    private void initAvatars() {
+        imgCat01.setImageResource(R.drawable.cat1);
+        imgCat02.setImageResource(R.drawable.cat2);
+        imgCat03.setImageResource(R.drawable.cat3);
+        imgCat04.setImageResource(R.drawable.cat4);
+        imgCat05.setImageResource(R.drawable.cat5);
+        imgCat06.setImageResource(R.drawable.cat6);
+
+        lblCat01.setText(R.string.avatar1_name);
+        lblCat02.setText(R.string.avatar2_name);
+        lblCat03.setText(R.string.avatar3_name);
+        lblCat04.setText(R.string.avatar4_name);
+        lblCat05.setText(R.string.avatar5_name);
+        lblCat06.setText(R.string.avatar6_name);
+
+        selectedAvatar();
+    }
+
+    private void selectedAvatar() {
+        switch ((int) avatar.getId()) {
+            case 1:
+                selectImageView(imgCat01);
+                break;
+            case 2:
+                selectImageView(imgCat02);
+                break;
+            case 3:
+                selectImageView(imgCat03);
+                break;
+            case 4:
+                selectImageView(imgCat04);
+                break;
+            case 5:
+                selectImageView(imgCat05);
+                break;
+            case 6:
+                selectImageView(imgCat06);
+                break;
+        }
+    }
+
+    private void selectAvatar(int id) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_AVATAR, Database.getInstance().queryAvatar(id));
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(EXTRA_AVATAR)) {
+            avatar = intent.getParcelableExtra(EXTRA_AVATAR);
+
+        } else {
+            throw new IllegalArgumentException("Activity cannot find  extras " + EXTRA_AVATAR);
+        }
     }
 
 }
