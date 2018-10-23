@@ -21,5 +21,11 @@
     <string name="descriptionAddres">icon address</string>
     <string name="descriptionWeb">icon web</string>
     <string name="descriptionAvatar">image of avatar</string>
+    <string name="contentDescriptionImg6">image of Avatar 6</string>
+    <string name="contentDescriptionImg4">image of Avatar 4</string>
+    <string name="contentDescriptionImg2">image of Avatar 2</string>
+    <string name="contentDescriptionImg5">image of Avatar 5</string>
+    <string name="contentDescriptionImg3">image of Avatar 3</string>
+    <string name="contentDescriptionImg1">image of Avatar 1</string>
     <!-- -->
 </resources>
