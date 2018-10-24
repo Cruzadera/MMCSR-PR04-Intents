@@ -16,7 +16,7 @@ import es.iessaladillo.pedrojoya.pr04.utils.ResourcesUtils;
 
 public class AvatarActivity extends AppCompatActivity {
 
-    public static final String EXTRA_AVATAR = "avatar";
+    public static final String EXTRA_AVATAR = "EXTRA_AVATAR";
     private ImageView imgCat01;
     private ImageView imgCat02;
     private ImageView imgCat03;
