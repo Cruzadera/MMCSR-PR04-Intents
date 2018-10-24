@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        // TODO
     }
 
     // DO NOT TOUCH
@@ -214,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == RC_AVATAR) {
             if (data != null && data.hasExtra(AvatarActivity.EXTRA_AVATAR)) {
                 avatar = data.getParcelableExtra(AvatarActivity.EXTRA_AVATAR);
-                // Procesamos el resultado (en este caso la edad).
                 changeAvatar(avatar);
             }
         }
@@ -304,15 +302,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isValidForm(){
-        boolean isValid = false;
+        boolean isValid;
         isValid = checkFieldSimple(lblName, txtName) && checkField(lblAddress, txtAddress, imgAddress, Field.ADDRESS) && checkField(lblPhonenumber, txtPhonenumber, imgPhonenumber, Field.PHONENUMBER)
                   && checkField(lblEmail, txtEmail, imgEmail, Field.EMAIL) && checkField(lblWeb, txtWeb, imgWeb, Field.WEB);
         return isValid;
     }
 
-    /**
-     * Checks if form is valid or not and shows a Snackbar accordingly
-     **/
 
     private void save() {
         if (isValidForm()) {

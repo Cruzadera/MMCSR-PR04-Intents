@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.avatar.AvatarActivity">
 
-    <!-- TODO -->
 
     <ImageView
         android:id="@+id/imgAvatar1"

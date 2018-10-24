@@ -3,7 +3,6 @@ package es.iessaladillo.pedrojoya.pr04.ui.avatar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +29,6 @@ public class AvatarActivity extends AppCompatActivity {
     private TextView lblCat05;
     private TextView lblCat06;
 
-    private Database database = Database.getInstance();
     private Avatar avatar;
 
     @Override
