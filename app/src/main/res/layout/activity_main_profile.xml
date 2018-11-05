@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!-- NO USES LITERALES DE TAMAÑO. DEFINE RECURSOS.
+         NO USES TAMAÑOS FIJOS PARA LAS VISTAS. NO SE VERÁN BIEN EN OTROS DISPOSITIVOS -->
     <TextView
         android:id="@+id/lblName"
         android:layout_width="wrap_content"

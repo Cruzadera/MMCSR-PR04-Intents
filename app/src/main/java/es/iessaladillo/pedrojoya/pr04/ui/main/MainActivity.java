@@ -237,6 +237,8 @@ public class MainActivity extends AppCompatActivity {
         lblAvatar.setText(database.getDefaultAvatar().getName());
     }
 
+    // POR QUÉ NO HACES QUE startIntent RECIBA EL INTENT QUE TIENE QUE ENVIAR.
+    // DE ESTA MANERA TE AHORRARÍAS EL IF ELSE IF.
     private void startIntent(Field field) {
         Intent intent = new Intent();
         if (field == Field.EMAIL) {
